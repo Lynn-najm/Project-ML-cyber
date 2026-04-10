@@ -1,0 +1,50 @@
+{
+    "evaluation_split": "test",
+    "split_source": "artifacts\\splits\\split_indices.npz",
+    "model_path": "artifacts\\final\\best_model.joblib",
+    "model_type": "RandomForestClassifier",
+    "test_accuracy": 0.985,
+    "test_macro_f1": 0.9849969177000919,
+    "false_positive_rate_benign": 0.0006666666666666666,
+    "class_order": [
+        "ATTACK",
+        "BENIGN"
+    ],
+    "test_size": 3000,
+    "test_class_distribution": {
+        "ATTACK": 1500,
+        "BENIGN": 1500
+    },
+    "infinite_value_counts_by_feature": {
+        "Rate": 2
+    },
+    "max_abs_finite_numeric_value": 90878238.05555557,
+    "classification_report": {
+        "ATTACK": {
+            "precision": 0.9993136582017845,
+            "recall": 0.9706666666666667,
+            "f1-score": 0.9847818735204599,
+            "support": 1500.0
+        },
+        "BENIGN": {
+            "precision": 0.9714841218405703,
+            "recall": 0.9993333333333333,
+            "f1-score": 0.9852119618797239,
+            "support": 1500.0
+        },
+        "accuracy": 0.985,
+        "macro avg": {
+            "precision": 0.9853988900211774,
+            "recall": 0.985,
+            "f1-score": 0.9849969177000919,
+            "support": 3000.0
+        },
+        "weighted avg": {
+            "precision": 0.9853988900211774,
+            "recall": 0.985,
+            "f1-score": 0.9849969177000918,
+            "support": 3000.0
+        }
+    },
+    "mean_attack_probability": 0.49916555555555553
+}
