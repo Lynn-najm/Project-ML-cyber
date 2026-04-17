@@ -1,0 +1,17 @@
+{
+    "promoted_model_prefix": "random_forest",
+    "source_run_dir": "artifacts\\runs\\random_forest_20260410_235125",
+    "final_dir": "artifacts\\final",
+    "required_files_promoted": [
+        "best_model.joblib",
+        "best_model_metrics.json",
+        "feature_order.json",
+        "label_mapping.json"
+    ],
+    "optional_files_promoted": [
+        "classification_report.txt",
+        "confusion_matrix.csv",
+        "feature_importances.csv"
+    ],
+    "promoted_at": "2026-04-11T00:11:48"
+}
