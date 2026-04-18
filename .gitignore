@@ -1,2 +1,77 @@
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Python
+# =========================
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+env/
+
+# =========================
+# Jupyter notebooks
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+
+# =========================
+# ML artifacts (large files)
+# =========================
+artifacts/runs/
+artifacts/final/*.joblib
+artifacts/final/*.pkl
+artifacts/final/*.pt
+artifacts/final/*.h5
+
+# =========================
+# Dataset (IMPORTANT)
+# =========================
+
+# Ignore raw datasets (too big usually)
+dataset/raw/
+
+# Ignore intermediate/generated data if needed
+dataset/**/full_*.csv
+
+# OPTIONAL: ignore train/test if too big
+# (uncomment if needed)
+# dataset/**/train.csv
+# dataset/**/test.csv
+
+# =========================
+# Temporary / debug files
+# =========================
+*.tmp
+*.bak
+*.swp
+
+# =========================
+# Environment variables
+# =========================
+.env
