@@ -1,0 +1,5 @@
+,train_accuracy,train_accuracy,train_accuracy,train_accuracy,validation_accuracy,validation_accuracy,validation_accuracy,validation_accuracy,train_macro_f1,train_macro_f1,train_macro_f1,train_macro_f1,validation_macro_f1,validation_macro_f1,validation_macro_f1,validation_macro_f1,false_positive_rate_benign,false_positive_rate_benign,false_positive_rate_benign,false_positive_rate_benign
+,mean,std,min,max,mean,std,min,max,mean,std,min,max,mean,std,min,max,mean,std,min,max
+model,,,,,,,,,,,,,,,,,,,,
+LogisticRegression,0.9840714285714286,0.0004870779177494658,0.9835,0.9847142857142858,0.9837999999999999,0.002754793801519283,0.9803333333333333,0.987,0.9840676861755135,0.00048749273441689043,0.9834958125676693,0.9847111655439886,0.9837954512189123,0.0027570074463879285,0.9803257237604901,0.9869978026286443,0.0,0.0,0.0,0.0
+RandomForestClassifier,1.0,0.0,1.0,1.0,0.9857333333333334,0.0024988886418655255,0.983,0.989,1.0,0.0,1.0,1.0,0.9857308561970031,0.002499942993355872,0.9829965067267709,0.9889988253190146,0.0014666666666666667,0.0007302967433402215,0.0006666666666666666,0.0026666666666666666

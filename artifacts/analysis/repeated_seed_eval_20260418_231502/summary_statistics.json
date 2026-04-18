@@ -1,0 +1,40 @@
+{
+    "LogisticRegression": {
+        "num_seeds": 5,
+        "train_accuracy_mean": 0.9840714285714286,
+        "train_accuracy_std": 0.0004870779177494848,
+        "validation_accuracy_mean": 0.9837999999999999,
+        "validation_accuracy_std": 0.002754793801519265,
+        "train_macro_f1_mean": 0.9840676861755135,
+        "train_macro_f1_std": 0.0004874927344169118,
+        "validation_macro_f1_mean": 0.9837954512189123,
+        "validation_macro_f1_std": 0.002757007446387942,
+        "false_positive_rate_benign_mean": 0.0,
+        "false_positive_rate_benign_std": 0.0
+    },
+    "RandomForestClassifier": {
+        "num_seeds": 5,
+        "train_accuracy_mean": 1.0,
+        "train_accuracy_std": 0.0,
+        "validation_accuracy_mean": 0.9857333333333334,
+        "validation_accuracy_std": 0.002498888641865519,
+        "train_macro_f1_mean": 1.0,
+        "train_macro_f1_std": 0.0,
+        "validation_macro_f1_mean": 0.9857308561970031,
+        "validation_macro_f1_std": 0.002499942993355871,
+        "false_positive_rate_benign_mean": 0.0014666666666666665,
+        "false_positive_rate_benign_std": 0.0007302967433402214
+    },
+    "seeds_used": [
+        7,
+        21,
+        42,
+        84,
+        123
+    ],
+    "notes": [
+        "This is an analysis-only script.",
+        "It does not overwrite the official frozen split or final artifacts.",
+        "It is meant to test metric stability across multiple random seeds."
+    ]
+}

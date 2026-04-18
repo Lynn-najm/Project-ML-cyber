@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from datetime import datetime
+from sklearn.model_selection import train_test_split
 
 import numpy as np
 import pandas as pd
@@ -144,3 +145,51 @@ def save_common_metadata(run_dir: str, features: list, labels: list) -> None:
 
     save_json(features, feature_order_path)
     save_json({"classes": labels}, label_mapping_path)
+
+
+def make_stratified_split(
+    X,
+    y,
+    seed: int,
+    train_ratio: float = 0.70,
+    val_ratio: float = 0.15,
+    test_ratio: float = 0.15,
+):
+    """
+    Create an exact stratified train/validation/test split.
+
+    This is a reusable helper:
+    - X can be a feature matrix/dataframe
+    - or X can be an array of row indices
+
+    Returns:
+        X_train, X_val, X_test, y_train, y_val, y_test
+    """
+    total_ratio = train_ratio + val_ratio + test_ratio
+    if not np.isclose(total_ratio, 1.0):
+        fail(
+            f"Split ratios must sum to 1.0, but got "
+            f"{train_ratio} + {val_ratio} + {test_ratio} = {total_ratio}"
+        )
+
+    n_samples = len(y)
+    temp_size = int(n_samples * (val_ratio + test_ratio))
+    test_size = int(n_samples * test_ratio)
+
+    X_train, X_temp, y_train, y_temp = train_test_split(
+        X,
+        y,
+        test_size=temp_size,
+        stratify=y,
+        random_state=seed
+    )
+
+    X_val, X_test, y_val, y_test = train_test_split(
+        X_temp,
+        y_temp,
+        test_size=test_size,
+        stratify=y_temp,
+        random_state=seed
+    )
+
+    return X_train, X_val, X_test, y_train, y_val, y_test

@@ -103,20 +103,28 @@ pipeline = Pipeline([
 pipeline.fit(X_train, y_train)
 
 # =========================================================
-# 6) VALIDATE
+# 6) TRAIN + VALIDATE
 # =========================================================
+y_train_pred= pipeline.predict(X_train)
 y_val_pred = pipeline.predict(X_val)
 y_val_proba = pipeline.predict_proba(X_val)
 
 labels = list(pipeline.named_steps["model"].classes_)
 
+train_accuracy= accuracy_score(y_train,y_train_pred)
+train_macro_f1= f1_score(y_train,y_train_pred,average="macro")
+
 val_accuracy = accuracy_score(y_val, y_val_pred)
 val_macro_f1 = f1_score(y_val, y_val_pred, average="macro")
+
 cm = confusion_matrix(y_val, y_val_pred, labels=labels)
 report_dict = classification_report(y_val, y_val_pred, output_dict=True)
 report_text = classification_report(y_val, y_val_pred)
 
-print("\n=== VALIDATION RESULTS ===")
+print("\n=== TRAIN / VALIDATION RESULTS ===")
+print(f"Train Accuracy  :  {train_accuracy:.6f}")
+print(f"Train Macro-F1  : {train_macro_f1:.6f}")
+
 print(f"Validation Accuracy : {val_accuracy:.6f}")
 print(f"Validation Macro-F1 : {val_macro_f1:.6f}")
 
@@ -157,6 +165,8 @@ save_common_metadata(run_dir, features, labels)
 metrics = {
     "model": "LogisticRegression",
     "split_source": split_path,
+    "train_accuracy": float(train_accuracy),
+    "train_macro_f1": float(train_macro_f1),
     "validation_accuracy": float(val_accuracy),
     "validation_macro_f1": float(val_macro_f1),
     "false_positive_rate_benign": float(fpr_benign) if fpr_benign is not None else None,
