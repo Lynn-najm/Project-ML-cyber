@@ -120,7 +120,19 @@ def build_proportional_grouped_dataset(
 
     return final_df.sample(frac=1, random_state=random_state).reset_index(drop=True)
 
+def merge_rare_grouped_classes(
+    df: pd.DataFrame,
+    grouped_label_col: str = "Grouped_Label"
+) -> pd.DataFrame:
+    df = df.copy()
 
+    rare_classes = {"Web", "BruteForce"}
+
+    df["Final_Label"] = df[grouped_label_col].apply(
+        lambda label: "Rare" if label in rare_classes else label
+    )
+
+    return df
 
 def main() -> None:
     df = load_raw_files(RAW_DIR)
@@ -133,7 +145,7 @@ def main() -> None:
 
     print("\n===== GROUPED LABEL PERCENTAGES =====")
     print(df["Grouped_Label"].value_counts(normalize=True) * 100)
-    
+
     sampled_df = build_proportional_grouped_dataset(df)
 
     print("\n===== SAMPLED GROUPED DATASET DISTRIBUTION =====")
@@ -141,6 +153,17 @@ def main() -> None:
 
     print("\n===== SAMPLED GROUPED DATASET PERCENTAGES =====")
     print(sampled_df["Grouped_Label"].value_counts(normalize=True) * 100)
+    
+# Merge rare classes into "Rare"
+
+    final_df = merge_rare_grouped_classes(sampled_df)
+
+    print("\n===== FINAL LABEL DISTRIBUTION =====")
+    print(final_df["Final_Label"].value_counts())
+
+    print("\n===== FINAL LABEL PERCENTAGES =====")
+    print(final_df["Final_Label"].value_counts(normalize=True) * 100)
+
 
 if __name__ == "__main__":
     main()
