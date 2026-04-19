@@ -85,6 +85,6 @@ Focus evaluation on:
 
 - macro F1-score
 - per-class recall
-- confusion matrix
+-confusion matrix
 
 Do NOT rely only on accuracy.
