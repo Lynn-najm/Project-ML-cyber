@@ -1,9 +1,10 @@
 from pathlib import Path
 import pandas as pd
+import json
 
 
 RAW_DIR = Path("dataset/raw")
-
+OUTPUT_DIR = Path("dataset/multiclass_v1")
 
 def load_raw_files(raw_dir: Path) -> pd.DataFrame:
     csv_files = sorted(raw_dir.glob("*.csv"))
@@ -134,6 +135,46 @@ def merge_rare_grouped_classes(
 
     return df
 
+def save_multiclass_artifacts(df: pd.DataFrame) -> None:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    output_path = OUTPUT_DIR / "full_multiclass.csv"
+    df.to_csv(output_path, index=False)
+
+    feature_cols = [
+        col for col in df.columns
+        if col not in ["Label", "Grouped_Label", "Final_Label"]
+    ]
+
+    with open(OUTPUT_DIR / "feature_list.json", "w") as f:
+        json.dump(feature_cols, f, indent=4)
+
+    unique_labels = sorted(df["Final_Label"].unique())
+    label_mapping = {label: idx for idx, label in enumerate(unique_labels)}
+
+    with open(OUTPUT_DIR / "label_mapping.json", "w") as f:
+        json.dump(label_mapping, f, indent=4)
+
+    class_dist = df["Final_Label"].value_counts()
+    class_dist.to_csv(OUTPUT_DIR / "class_distribution.csv")
+
+    metadata = {
+        "dataset_name": "multiclass_v1",
+        "num_rows": len(df),
+        "num_features": len(feature_cols),
+        "target_column": "Final_Label",
+        "intermediate_group_column": "Grouped_Label",
+        "original_label_column": "Label",
+        "classes": unique_labels,
+        "description": "Grouped multiclass dataset built from CICIoT2023 with proportional attack downsampling and rare class merging"
+    }
+
+    with open(OUTPUT_DIR / "metadata.json", "w") as f:
+        json.dump(metadata, f, indent=4)
+
+    print(f"\nSaved dataset to {output_path}")
+
+
 def main() -> None:
     df = load_raw_files(RAW_DIR)
     inspect_basic_info(df)
@@ -164,6 +205,8 @@ def main() -> None:
     print("\n===== FINAL LABEL PERCENTAGES =====")
     print(final_df["Final_Label"].value_counts(normalize=True) * 100)
 
+
+    save_multiclass_artifacts(final_df)
 
 if __name__ == "__main__":
     main()
