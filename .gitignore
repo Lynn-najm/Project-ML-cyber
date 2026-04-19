@@ -56,8 +56,6 @@ artifacts/final/*.h5
 # Ignore raw datasets (too big usually)
 dataset/raw/
 
-# Ignore intermediate/generated data if needed
-dataset/**/full_*.csv
 
 # OPTIONAL: ignore train/test if too big
 # (uncomment if needed)
