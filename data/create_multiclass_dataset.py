@@ -1,6 +1,7 @@
 from pathlib import Path
 import pandas as pd
 import json
+from sklearn.model_selection import train_test_split
 
 
 RAW_DIR = Path("dataset/raw")
@@ -174,6 +175,30 @@ def save_multiclass_artifacts(df: pd.DataFrame) -> None:
 
     print(f"\nSaved dataset to {output_path}")
 
+def split_and_save_dataset(
+    df: pd.DataFrame,
+    test_size: float = 0.2,
+    random_state: int = 42
+) -> None:
+    train_df, test_df = train_test_split(
+        df,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=df["Final_Label"]
+    )
+
+    train_df.to_csv(OUTPUT_DIR / "train.csv", index=False)
+    test_df.to_csv(OUTPUT_DIR / "test.csv", index=False)
+
+    print("\n===== TRAIN SPLIT DISTRIBUTION =====")
+    print(train_df["Final_Label"].value_counts())
+
+    print("\n===== TEST SPLIT DISTRIBUTION =====")
+    print(test_df["Final_Label"].value_counts())
+
+    print(f"\nSaved train split to {OUTPUT_DIR / 'train.csv'}")
+    print(f"Saved test split to {OUTPUT_DIR / 'test.csv'}")
+
 
 def main() -> None:
     df = load_raw_files(RAW_DIR)
@@ -207,6 +232,8 @@ def main() -> None:
 
 
     save_multiclass_artifacts(final_df)
+
+    split_and_save_dataset(final_df)
 
 if __name__ == "__main__":
     main()
