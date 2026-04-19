@@ -91,6 +91,37 @@ def map_to_grouped_label(label: str) -> str:
         raise ValueError(f"Unmapped label found: {label}")
     return GROUPED_LABEL_MAP[label]
 
+
+def build_proportional_grouped_dataset(
+    df: pd.DataFrame,
+    benign_label: str = "BENIGN",
+    grouped_label_col: str = "Grouped_Label",
+    random_state: int = 42
+) -> pd.DataFrame:
+    benign_df = df[df[grouped_label_col] == benign_label].copy()
+    attack_df = df[df[grouped_label_col] != benign_label].copy()
+
+    benign_count = len(benign_df)
+
+    # Sample total attack rows to match benign count
+    sampled_attack_df = (
+        attack_df
+        .groupby(grouped_label_col, group_keys=False)
+        .apply(
+            lambda group: group.sample(
+                n=max(1, round(len(group) / len(attack_df) * benign_count)),
+                random_state=random_state
+            )
+        )
+        .reset_index(drop=True)
+    )
+
+    final_df = pd.concat([benign_df, sampled_attack_df], ignore_index=True)
+
+    return final_df.sample(frac=1, random_state=random_state).reset_index(drop=True)
+
+
+
 def main() -> None:
     df = load_raw_files(RAW_DIR)
     inspect_basic_info(df)
@@ -102,6 +133,14 @@ def main() -> None:
 
     print("\n===== GROUPED LABEL PERCENTAGES =====")
     print(df["Grouped_Label"].value_counts(normalize=True) * 100)
+    
+    sampled_df = build_proportional_grouped_dataset(df)
+
+    print("\n===== SAMPLED GROUPED DATASET DISTRIBUTION =====")
+    print(sampled_df["Grouped_Label"].value_counts())
+
+    print("\n===== SAMPLED GROUPED DATASET PERCENTAGES =====")
+    print(sampled_df["Grouped_Label"].value_counts(normalize=True) * 100)
 
 if __name__ == "__main__":
     main()
